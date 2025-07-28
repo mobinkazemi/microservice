@@ -9,14 +9,8 @@ app.use(bodyParser.json());
 app.post("/events", async (req, res) => {
   const data = req.body;
 
-  try {
-    axios.post("http://localhost:4000/events", data);
-    axios.post("http://localhost:4001/events", data);
-  } catch (error) {
-    console.log(error);
-
-    return res.status(500).send({ status: "NOK" });
-  }
+  await axios.post("http://localhost:4000/events", data);
+  await axios.post("http://localhost:4001/events", data);
 
   return res.status(200).send({ status: "OK" });
 });
