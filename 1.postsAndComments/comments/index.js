@@ -40,4 +40,12 @@ app.post("/posts/:id/comments", async (req, res) => {
   return res.status(201).send(commentsByPostId[postId]);
 });
 
+app.post("/events", (req, res) => {
+  const { type, data } = req.body;
+
+  console.log("Recieved Event:", type, " With data:", data);
+
+  res.send({});
+});
+
 app.listen(4001, () => console.log("Server is running on 4001"));
