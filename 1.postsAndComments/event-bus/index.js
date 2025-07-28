@@ -12,6 +12,8 @@ app.post("/events", async (req, res) => {
   await axios.post("http://localhost:4000/events", data);
   await axios.post("http://localhost:4001/events", data);
 
+  console.log("Broadcasting a new event:", data.type);
+
   return res.status(200).send({ status: "OK" });
 });
 
