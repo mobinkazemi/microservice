@@ -2,6 +2,7 @@ const express = require("express");
 const { randomBytes } = require("crypto");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const axios = require("axios");
 
 const app = express();
 app.use(bodyParser.json());
@@ -15,7 +16,7 @@ app.get("/posts/:id/comments", (req, res) => {
   res.send(commentsByPostId[postId] || []);
 });
 
-app.post("/posts/:id/comments", (req, res) => {
+app.post("/posts/:id/comments", async (req, res) => {
   const id = randomBytes(4).toString("hex");
   const postId = req.params.id;
 
@@ -27,7 +28,16 @@ app.post("/posts/:id/comments", (req, res) => {
 
   commentsByPostId[postId] = comments;
 
-  res.status(201).send(commentsByPostId[postId]);
+  await axios.post("http://localhost:4005/events", {
+    type: "CommentCreated",
+    data: {
+      id,
+      content,
+      postId,
+    },
+  });
+
+  return res.status(201).send(commentsByPostId[postId]);
 });
 
 app.listen(4001, () => console.log("Server is running on 4001"));
