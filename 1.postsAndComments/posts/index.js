@@ -30,4 +30,12 @@ app.post("/posts", async (req, res) => {
   res.status(201).send(posts[id]);
 });
 
+app.post("/events", (req, res) => {
+  const { type, data } = req.body;
+
+  console.log("Recieved Event:", type, " With data:", data);
+
+  res.send({});
+});
+
 app.listen(4000, () => console.log("Server is running on 4000"));
