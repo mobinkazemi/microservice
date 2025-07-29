@@ -6,13 +6,21 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.post("/events", async (req, res) => {
+app.post("/events", (req, res) => {
   const data = req.body;
 
-  await axios.post("http://localhost:4000/events", data);
-  await axios.post("http://localhost:4001/events", data);
-  await axios.post("http://localhost:4002/events", data);
-  await axios.post("http://localhost:4003/events", data);
+  axios
+    .post("http://localhost:4000/events", data)
+    .catch((el) => console.log(el));
+  axios
+    .post("http://localhost:4001/events", data)
+    .catch((el) => console.log(el));
+  axios
+    .post("http://localhost:4002/events", data)
+    .catch((el) => console.log(el));
+  axios
+    .post("http://localhost:4003/events", data)
+    .catch((el) => console.log(el));
 
   console.log("Broadcasting a new event:", data.type);
 
