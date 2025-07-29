@@ -8,7 +8,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const commentsByPostId = {};
+let commentsByPostId = {};
 
 app.get("/posts/:id/comments", (req, res) => {
   const postId = req.params.id;
@@ -24,15 +24,16 @@ app.post("/posts/:id/comments", async (req, res) => {
 
   const comments = commentsByPostId[postId] || [];
 
-  comments.push({ id, content });
+  const thisComment = { id, content, status: "pending" };
+
+  comments.push(thisComment);
 
   commentsByPostId[postId] = comments;
 
   await axios.post("http://localhost:4005/events", {
     type: "CommentCreated",
     data: {
-      id,
-      content,
+      ...thisComment,
       postId,
     },
   });
@@ -40,12 +41,26 @@ app.post("/posts/:id/comments", async (req, res) => {
   return res.status(201).send(commentsByPostId[postId]);
 });
 
-app.post("/events", (req, res) => {
+app.post("/events", async (req, res) => {
   const { type, data } = req.body;
 
-  console.log("Recieved Event:", type, " With data:", data);
+  if (type === "CommentModerated") {
+    const { status, id, postId } = data;
 
+    let thisComment = commentsByPostId[postId].find((el) => el.id === id);
+
+    if (thisComment) {
+      thisComment.status = status;
+      await axios.post("http://localhost:4005/events", {
+        type: "CommentUpdated",
+        data: {
+          ...thisComment,
+          postId,
+        },
+      });
+    }
+  }
   res.send({});
 });
 
-app.listen(4001, () => console.log("Server is running on 4001"));
+app.listen(4001, () => console.log("Comment is running on 4001"));
