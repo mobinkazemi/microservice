@@ -15,16 +15,16 @@ app.post("/events", (req, res) => {
 
   axios
     .post("http://localhost:4000/events", event)
-    .catch((el) => console.log(el));
+    .catch((el) => console.log(el.message));
   axios
     .post("http://localhost:4001/events", event)
-    .catch((el) => console.log(el));
+    .catch((el) => console.log(el.message));
   axios
     .post("http://localhost:4002/events", event)
-    .catch((el) => console.log(el));
+    .catch((el) => console.log(el.message));
   axios
     .post("http://localhost:4003/events", event)
-    .catch((el) => console.log(el));
+    .catch((el) => console.log(el.message));
 
   console.log("Broadcasting a new event:", event.type);
 

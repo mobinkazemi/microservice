@@ -49,7 +49,6 @@ app.listen(4002, async () => {
   const events = await axios.get("http://localhost:4005/events");
 
   for (let ev of events.data) {
-    console.log(ev);
     eventHandler(ev.type, ev.data);
   }
 });

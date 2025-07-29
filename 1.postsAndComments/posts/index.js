@@ -33,8 +33,6 @@ app.post("/posts", async (req, res) => {
 app.post("/events", (req, res) => {
   const { type, data } = req.body;
 
-  console.log("Recieved Event:", type, " With data:", data);
-
   res.send({});
 });
 

@@ -15,7 +15,6 @@ const PostList = () => {
     fetchPost();
   }, []);
 
-  // console.log(postList, Array.isArray(postList));
   const posts = postList.map((p) => {
     return (
       <div
