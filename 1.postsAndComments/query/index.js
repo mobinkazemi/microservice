@@ -26,6 +26,7 @@ app.post("/events", (req, res) => {
     posts[postId].comments.forEach((el) => {
       if (el.id === id) {
         el.status = status;
+        el.content = content;
       }
     });
   }
