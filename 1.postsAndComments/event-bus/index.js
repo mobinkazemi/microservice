@@ -17,13 +17,13 @@ app.post("/events", (req, res) => {
     .post("http://posts-srv-cluster-ip:4000/events", event)
     .catch((el) => console.log(el.message));
   axios
-    .post("http://localhost:4001/events", event)
+    .post("http://comment-srv-cluster-ip:4001/events", event)
     .catch((el) => console.log(el.message));
   axios
-    .post("http://localhost:4002/events", event)
+    .post("http://query-srv-cluster-ip:4002/events", event)
     .catch((el) => console.log(el.message));
   axios
-    .post("http://localhost:4003/events", event)
+    .post("http://moderation-srv-cluster-ip:4003/events", event)
     .catch((el) => console.log(el.message));
 
   console.log("Broadcasting a new event:", event.type);

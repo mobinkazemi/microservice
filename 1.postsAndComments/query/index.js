@@ -46,7 +46,7 @@ app.get("/posts", (req, res) => {
 app.listen(4002, async () => {
   console.log("Query is running on 4002");
 
-  const events = await axios.get("http://localhost:4005/events");
+  const events = await axios.get("http://eventbus-srv-cluster-ip:4005/events");
 
   for (let ev of events.data) {
     eventHandler(ev.type, ev.data);

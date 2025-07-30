@@ -22,7 +22,7 @@ app.post("/events", async (req, res) => {
       moderatedStatus = "approved";
     }
 
-    await axios.post("http://localhost:4001/events", {
+    await axios.post("http://comment-srv-cluster-ip:4001/events", {
       type: "CommentModerated",
       data: {
         ...data,
