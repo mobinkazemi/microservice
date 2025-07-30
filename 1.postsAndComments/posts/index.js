@@ -36,4 +36,7 @@ app.post("/events", (req, res) => {
   res.send({});
 });
 
-app.listen(4000, () => console.log("Posts is running on 4000"));
+app.listen(4000, () => {
+  console.log("V2.1");
+  console.log("Posts is running on 4000");
+});
