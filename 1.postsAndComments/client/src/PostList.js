@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CommentCreate from "./CommentCreate";
 import CommentList from "./CommentList";
+import { DOMAIN_URL } from "./shared/constants/domain";
 
 const PostList = () => {
   const [postList, setPostList] = useState([]);
 
   const fetchPost = async () => {
-    const res = await axios.get("http://localhost:4002/posts");
+    const res = await axios.get(DOMAIN_URL + "/posts");
     setPostList(Object.values(res.data));
   };
 

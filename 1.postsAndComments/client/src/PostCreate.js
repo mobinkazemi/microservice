@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { DOMAIN_URL } from "./shared/constants/domain";
 
 export default () => {
   const [title, setTitle] = useState("");
@@ -7,7 +8,7 @@ export default () => {
   const onSubmit = async (event) => {
     event.preventDefault();
 
-    await axios.post("http://localhost:4000/posts", { title });
+    await axios.post(DOMAIN_URL + "/posts/create", { title });
 
     setTitle("");
   };

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { DOMAIN_URL } from "./shared/constants/domain";
 
 const CommentCreate = ({ postId }) => {
   const [comment, setComment] = useState("");
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    await axios.post(`http://localhost:4001/posts/${postId}/comments`, {
+    await axios.post(DOMAIN_URL + `/posts/${postId}/comments`, {
       content: comment,
     });
 
