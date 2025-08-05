@@ -8,24 +8,19 @@ export const errorHandlerMiddleware = (
     res: Response,
     next: NextFunction
 ) => {
-    console.log('Inside Error Handler:', err.message);
-
     if (err instanceof RequestValidationError) {
-        const formattedErrors = err.errors.map((error) => {
-            if (error.type === 'field') {
-                return { message: error.msg, field: error.path };
-            }
+        return res.status(err.statusCode).send({
+            errors: err.serializeError(),
         });
-        return res.status(400).send({ errors: formattedErrors });
     }
 
     if (err instanceof DatabaseConnectionError) {
-        return res.status(500).send({
-            errors: [{ message: err.reason }]
+        return res.status(err.statusCode).send({
+            errors: err.serializeError(),
         });
     }
 
     res.status(400).send({
-        errors: [{ message: err.message }]
-    })
-}
+        errors: [{ message: err.message }],
+    });
+};
