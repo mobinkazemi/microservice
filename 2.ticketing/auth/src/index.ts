@@ -7,7 +7,7 @@ const app = express()
 app.use(json())
 
 
-app.all(/(.*)/, () => {
+app.all(/(.*)/, async () => {
     throw new RouteNotFoundError()
 })
 
