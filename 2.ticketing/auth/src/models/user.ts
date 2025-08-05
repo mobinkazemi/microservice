@@ -19,11 +19,10 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
 });
 
-const User = mongoose.model<IUserDoc, IUserSchema>("User", userSchema);
-
 userSchema.statics.build = (data: IUser) => {
     return new User(data);
 };
 
+const User = mongoose.model<IUserDoc, IUserSchema>("User", userSchema);
 
 export { User };
