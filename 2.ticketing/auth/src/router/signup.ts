@@ -26,7 +26,7 @@ router.post('/api/users/signup', signUpDto, async (req: Request, res: Response) 
         throw new BadRequestError('Email in use')
     }
 
-    const newUser = User.build({ password: await Password.toHash(password), email })
+    const newUser = User.build({ password, email })
 
     await newUser.save()
 
