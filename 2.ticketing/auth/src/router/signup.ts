@@ -6,7 +6,7 @@ import { RequestValidationError } from '../errors/request-validation.error';
 import { User } from '../models/user';
 import { BadRequestError } from '../errors/bad-request.error';
 import { Password } from '../services/password';
-
+import jwt from 'jsonwebtoken'
 
 const router = express.Router()
 
@@ -30,6 +30,12 @@ router.post('/api/users/signup', signUpDto, async (req: Request, res: Response) 
 
     await newUser.save()
 
+    const token = jwt.sign({ id: newUser.id, email: newUser.email }, process.env.JWT_KEY as string, {})
+
+    // save token as cookie (cookie-session package needs req.session)
+    req.session = {
+        jwt: token
+    }
     res.status(201).send(newUser)
 
 })

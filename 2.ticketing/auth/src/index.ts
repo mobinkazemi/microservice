@@ -4,10 +4,18 @@ import { errorHandlerMiddleware } from './middleware/error-handler'
 import { RouteNotFoundError } from './errors/route-not-found.error'
 import mongoose from 'mongoose'
 import { signupRouter } from './router/signup'
+import cookieSession from 'cookie-session'
 
 const app = express()
-app.use(json())
+app.set('trust proxy', true)
 
+app.use(json())
+app.use(
+    cookieSession({
+        signed: false,
+        secure: true,
+    })
+)
 app.use(signupRouter)
 
 app.all(/(.*)/, async () => {
@@ -17,6 +25,10 @@ app.all(/(.*)/, async () => {
 app.use(errorHandlerMiddleware)
 
 app.listen(3000, async () => {
+
+    if (!process.env.JWT_KEY) {
+        throw new Error('JWT_KEY env not defined')
+    }
     try {
         await mongoose.connect('mongodb://auth-mongo-clusterip-srv:27017/auth')
         console.log('Connected to MongoDB')
