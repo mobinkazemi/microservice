@@ -5,6 +5,7 @@ import { RouteNotFoundError } from './errors/route-not-found.error'
 import mongoose from 'mongoose'
 import { signupRouter } from './router/signup'
 import cookieSession from 'cookie-session'
+import { signinRouter } from './router/signin'
 
 const app = express()
 app.set('trust proxy', true)
@@ -17,6 +18,7 @@ app.use(
     })
 )
 app.use(signupRouter)
+app.use(signinRouter)
 
 app.all(/(.*)/, async () => {
     throw new RouteNotFoundError()
