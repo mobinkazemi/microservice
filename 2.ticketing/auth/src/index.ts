@@ -7,6 +7,7 @@ import { signupRouter } from './router/signup'
 import cookieSession from 'cookie-session'
 import { signinRouter } from './router/signin'
 import { currentUserRouter } from './router/current-user'
+import { signoutRouter } from './router/signout'
 
 const app = express()
 app.set('trust proxy', true)
@@ -21,6 +22,7 @@ app.use(
 app.use(signupRouter)
 app.use(signinRouter)
 app.use(currentUserRouter)
+app.use(signoutRouter)
 
 app.all(/(.*)/, async () => {
     throw new RouteNotFoundError()
