@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 
 let mongo: any;
 beforeAll(async () => {
+    process.env.JWT_KEY = 'jwtTestKey'
     mongo = await MongoMemoryServer.create();
     const mongoUri = mongo.getUri();
 
