@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import useRequest from "../../hooks/use-request";
 
 const SignupAPI = {
   url: "/api/users/signup",
@@ -9,23 +10,18 @@ const SignupAPI = {
 const signupPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState([]);
-
+  const { doRequest, errors } = useRequest({
+    url: SignupAPI.url,
+    method: SignupAPI.method,
+    body: {
+      email,
+      password,
+    },
+  });
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await axios({
-        url: SignupAPI.url,
-        method: SignupAPI.method,
-        data: {
-          email,
-          password,
-        },
-      });
-    } catch (error) {
-      setErrors(error.response.data.errors);
-    }
+    await doRequest();
   };
 
   return (
@@ -49,15 +45,7 @@ const signupPage = () => {
         />
       </div>
 
-      {errors.length > 0 && (
-        <div className="alert alert-danger">
-          <ul className="my-0">
-            {errors.map((e) => (
-              <li key={e.message}>{e.message}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+      {errors}
       <button className="btn btn-primary">Sign Up</button>
     </form>
   );
