@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import useRequest from "../../hooks/use-request";
+import Router from "next/router";
 
 const SignupAPI = {
   url: "/api/users/signup",
@@ -17,6 +18,7 @@ const signupPage = () => {
       email,
       password,
     },
+    onSuccess: () => Router.push("/"),
   });
   const handleSubmit = async (e) => {
     e.preventDefault();
