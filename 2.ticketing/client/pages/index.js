@@ -1,32 +1,18 @@
-import axios from "axios";
+import buildClient from "../api/buildClient";
 
 const LandingPage = ({ currentUser }) => {
   console.log({ currentUser });
   return <h1>landing page</h1>;
 };
 
-LandingPage.getInitialProps = async ({ req }) => {
+LandingPage.getInitialProps = async (context) => {
   try {
-    let response;
+    const { data } = await buildClient(context).get("/api/users/current-user");
 
-    // This is how we figure out that if requester is from browser or from inside the pod (Nodejs Pod environment)
-    if (typeof window === "undefined") {
-      // So we are on Pod Nodejs env
-      const url =
-        "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local" +
-        "/api/users/current-user";
-
-      response = await axios.get(url, { headers: req.headers });
-    } else {
-      // we are on browser
-      const url = "/api/users/current-user";
-
-      response = await axios.get(url);
-    }
-
-    return { currentUser: response.data.currentUser };
+    return { currentUser: data.currentUser };
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
+
     return { currentUser: null };
   }
 };
