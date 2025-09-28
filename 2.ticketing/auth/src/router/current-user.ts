@@ -1,7 +1,5 @@
+import { currentUserMiddleware, requireAuth } from "@mokatickets/common";
 import express, { Request, Response } from "express";
-import jwt from "jsonwebtoken";
-import { currentUserMiddleware } from "../middleware/currentUser";
-import { requireAuth } from "../middleware/require-auth";
 
 const router = express.Router();
 

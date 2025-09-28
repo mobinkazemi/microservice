@@ -1,10 +1,9 @@
 import express, { Request, Response } from 'express'
 import { signInDto } from './dto/signin.dto'
-import { validateMiddleware } from '../middleware/validate-request'
 import { User } from '../models/user'
 import { Password } from '../services/password'
-import { BadRequestError } from '../errors/bad-request.error'
 import jwt from 'jsonwebtoken'
+import { BadRequestError, validateMiddleware } from '@mokatickets/common'
 
 const router = express.Router()
 

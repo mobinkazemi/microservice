@@ -1,9 +1,8 @@
 import express, { Request, Response } from "express";
 import { signUpDto } from "./dto/signup.dto";
 import { User } from "../models/user";
-import { BadRequestError } from "../errors/bad-request.error";
 import jwt from "jsonwebtoken";
-import { validateMiddleware } from "../middleware/validate-request";
+import { BadRequestError, validateMiddleware } from "@mokatickets/common";
 
 const router = express.Router();
 
