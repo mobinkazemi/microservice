@@ -1,0 +1,22 @@
+{
+  "name": "@mokatickets/common",
+  "version": "1.0.1",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "files": [
+    "build/**/*"
+  ],
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "del ./build/*",
+    "pub": "git add . && git commit -m \"Common - feat - Update\" && npm version patch && npm run build && npm publish"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "del-cli": "^7.0.0",
+    "typescript": "^5.9.2"
+  }
+}
