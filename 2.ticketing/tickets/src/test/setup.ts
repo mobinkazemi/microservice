@@ -14,7 +14,7 @@ beforeAll(async () => {
     const mongoUri = mongo.getUri();
 
     await mongoose.connect(mongoUri, {})
-})
+}, 1200000)
 
 beforeEach(async () => {
     const collections = await mongoose.connection.db?.collections();
