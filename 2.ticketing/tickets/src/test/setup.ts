@@ -2,9 +2,9 @@ import { MongoMemoryServer } from 'mongodb-memory-server'
 import { app } from '../app'
 import mongoose from 'mongoose';
 import supertest from 'supertest';
-
+import jwt from 'jsonwebtoken';
 declare global {
-    var signin: () => Promise<string[]>;
+    var signin: () => string[];
 }
 
 let mongo: any;
@@ -32,21 +32,26 @@ afterAll(async () => {
     await mongoose.connection.close();
 })
 
-global.signin = async () => {
-    const email = "test@test.com";
-    const password = "P@ssw0rd";
+global.signin = () => {
+    // We should not request the auth service in the test because we should keep 
+    // our services isolated from each other
+    // So we will create a fake JWT payload and create the session
 
-    const response = await supertest(app)
-        .post("/api/users/signup")
-        .send({ email, password })
-        .expect(201);
-
-    const cookie = response.get("Set-Cookie");
-
-    if (!cookie) {
-        throw new Error("No Set-Cookie header found");
+    // Steps to create a fake cookie:
+    // 1. Build a JWT payload {id, email}
+    const payload = {
+        id: new mongoose.Types.ObjectId().toHexString(),
+        email: 'test@test.com'
     }
+    // 2. Create the JWT
+    const token = jwt.sign(payload, process.env.JWT_KEY!)
+    // 3. Build session object {jwt: MY_JWT}
+    const session = { jwt: token };
+    // 4. Turn that session into JSON
+    const sessionJSON = JSON.stringify(session);
+    // 5. Encode that JSON as base64
+    const base64 = Buffer.from(sessionJSON).toString('base64');
+    // 6. return a string thats the cookie with the encoded data
+    return [`session=${base64}`];
 
-
-    return cookie;
 }
