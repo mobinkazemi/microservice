@@ -1,4 +1,4 @@
-import { NotAuthorizedError, requireAuth, RouteNotFoundError, validateMiddleware } from "@mokatickets/common";
+import { NotAuthorizedError, requireAuth, ResourceNotFoundError, validateMiddleware } from "@mokatickets/common";
 import express, { Request, Response } from "express";
 import { updateTicketDto } from "./dto/update.dto";
 import { Ticket } from "../models/ticket";
@@ -12,7 +12,7 @@ router.put("/api/tickets/:id", requireAuth, updateTicketDto, validateMiddleware,
     let ticket = await Ticket.findById(id)
 
     if (!ticket) {
-        throw new RouteNotFoundError()
+        throw new ResourceNotFoundError()
     }
 
     if (ticket.userId !== req.currentUser!.id) {

@@ -1,4 +1,4 @@
-import { requireAuth, RouteNotFoundError, validateMiddleware } from "@mokatickets/common";
+import { ResourceNotFoundError } from "@mokatickets/common";
 import express, { Request, Response } from "express";
 import { Ticket } from "../models/ticket";
 
@@ -10,7 +10,7 @@ router.get("/api/tickets/:id", async (req: Request, res: Response) => {
     const ticket = await Ticket.findById(id)
 
     if (!ticket) {
-        throw new RouteNotFoundError()
+        throw new ResourceNotFoundError()
     }
     res.status(200).send(ticket)
 });
