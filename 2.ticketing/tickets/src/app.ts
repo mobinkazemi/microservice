@@ -3,6 +3,7 @@ import { json } from 'body-parser'
 import cookieSession from 'cookie-session'
 import { currentUserMiddleware, errorHandlerMiddleware, RouteNotFoundError } from '@mokatickets/common'
 import { createTicketRouter } from './routes/new'
+import { showTicketRouter } from './routes/show'
 
 const app = express()
 app.set('trust proxy', true)
@@ -18,6 +19,7 @@ app.use(
 app.use(currentUserMiddleware)
 
 app.use(createTicketRouter)
+app.use(showTicketRouter)
 
 app.all(/(.*)/, async () => {
     throw new RouteNotFoundError()
